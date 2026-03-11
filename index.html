@@ -276,6 +276,17 @@
     <div class="approaches-grid" id="sighGrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"></div>
   </div>
 
+  <div class="word-card" id="voiceSection">
+    <div class="word-header">
+      <div class="word-hebrew" style="font-size:1.4rem">השוואת קולות MiniMax</div>
+      <div class="word-meta">
+        <div class="word-correct">איזה קול נשמע הכי טבעי בעברית?</div>
+        <div class="word-wrong">הקול הקודם (English_Graceful_Lady) נשמע עם מבטא סיני — בודקים חלופות</div>
+      </div>
+    </div>
+    <div class="approaches-grid" id="voiceGrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"></div>
+  </div>
+
   <div class="summary-card" id="summaryCard">
     <h3>סיכום הצבעות</h3>
     <div id="summaryContent"></div>
@@ -590,6 +601,86 @@ var SIGH_TAKES = [
     btnBad.addEventListener('click', function() {
       var v = loadVotes();
       var k = 'sigh__' + take.id;
+      if (v[k] === 'wrong') { delete v[k]; } else { v[k] = 'wrong'; }
+      saveVotes(v);
+      var row = this.parentElement;
+      Array.from(row.children).forEach(function(b) { b.classList.remove('selected'); });
+      if (v[k]) this.classList.add('selected');
+    });
+
+    voteRow.appendChild(btnGood);
+    voteRow.appendChild(btnBad);
+    cell.appendChild(voteRow);
+
+    grid.appendChild(cell);
+  });
+})();
+
+// === Voice comparison section ===
+var VOICE_TESTS = [
+  { id: 'voice-test-Arabic_CalmWoman', label: 'Arabic CalmWoman', desc: 'קול ערבי רגוע — הכי קרוב לעברית?' },
+  { id: 'voice-test-Arabic_FriendlyGuy', label: 'Arabic FriendlyGuy', desc: 'קול ערבי גברי — ידידותי' },
+  { id: 'voice-test-English_CalmWoman', label: 'English CalmWoman', desc: 'קול אנגלי רגוע נשי' },
+  { id: 'voice-test-English_SereneWoman', label: 'English SereneWoman', desc: 'קול אנגלי שליו נשי' },
+  { id: 'voice-test-English_Gentle-voiced_man', label: 'English Gentle Man', desc: 'קול אנגלי עדין גברי' },
+];
+
+(function renderVoiceTests() {
+  var grid = document.getElementById('voiceGrid');
+  if (!grid) return;
+  var votes = loadVotes();
+
+  VOICE_TESTS.forEach(function(voice) {
+    var cell = createEl('div', 'approach-cell');
+    var label = createEl('div', 'approach-label');
+    var tag = createEl('span', 'engine-tag minimax', 'M');
+    label.appendChild(tag);
+    label.appendChild(document.createTextNode(' ' + voice.label));
+    cell.appendChild(label);
+    cell.appendChild(createEl('div', 'approach-desc', voice.desc));
+
+    var ac = createEl('div', '');
+    cell.appendChild(ac);
+
+    var audioPath = 'audio/' + voice.id + '.mp3';
+    var testAudio = new Audio();
+    testAudio.addEventListener('canplaythrough', function() {
+      var audioEl = document.createElement('audio');
+      audioEl.controls = true;
+      audioEl.preload = 'auto';
+      audioEl.src = audioPath;
+      audioEl.style.width = '100%';
+      audioEl.style.height = '40px';
+      audioEl.style.borderRadius = '8px';
+      ac.textContent = '';
+      ac.appendChild(audioEl);
+    });
+    testAudio.addEventListener('error', function() {
+      ac.appendChild(createEl('div', 'no-audio', 'File missing'));
+    });
+    testAudio.src = audioPath;
+
+    var vk = 'voice__' + voice.id;
+    var currentVote = votes[vk] || null;
+    var voteRow = createEl('div', 'vote-row');
+
+    var btnGood = createEl('button', 'vote-btn correct-btn', 'נשמע טבעי');
+    if (currentVote === 'correct') btnGood.classList.add('selected');
+    btnGood.addEventListener('click', function() {
+      var v = loadVotes();
+      var k = 'voice__' + voice.id;
+      if (v[k] === 'correct') { delete v[k]; } else { v[k] = 'correct'; }
+      saveVotes(v);
+      var row = this.parentElement;
+      Array.from(row.children).forEach(function(b) { b.classList.remove('selected'); });
+      if (v[k]) this.classList.add('selected');
+    });
+
+    var btnBad = createEl('button', 'vote-btn wrong-btn', 'מבטא לא טוב');
+    if (currentVote === 'wrong') btnBad.classList.add('selected');
+    btnBad.addEventListener('click', function() {
+      var v = loadVotes();
+      var k = 'voice__' + voice.id;
       if (v[k] === 'wrong') { delete v[k]; } else { v[k] = 'wrong'; }
       saveVotes(v);
       var row = this.parentElement;
