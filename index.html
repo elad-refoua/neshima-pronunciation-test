@@ -389,38 +389,17 @@ function renderCards() {
       const desc = createEl('div', 'approach-desc', approach.desc);
       cell.appendChild(desc);
 
-      // Audio container
-      const ac = createEl('div', '');
-      ac.id = 'ac_' + word.id + '_' + approach.id;
-      cell.appendChild(ac);
-
-      // Audio element
+      // Audio element — show directly (no probe, works on Safari/iOS)
       const filename = word.id + '_' + approach.id + '.mp3';
       const audioPath = 'audio/' + filename;
-      const testAudio = new Audio();
-      testAudio.addEventListener('canplaythrough', function() {
-        var audioEl = document.createElement('audio');
-        audioEl.controls = true;
-        audioEl.preload = 'auto';
-        audioEl.src = audioPath;
-        audioEl.style.width = '100%';
-        audioEl.style.height = '40px';
-        audioEl.style.borderRadius = '8px';
-        ac.textContent = '';
-        ac.appendChild(audioEl);
-      });
-      testAudio.addEventListener('error', function() {
-        var placeholder = createEl('div', 'no-audio');
-        if (approach.engine === 'minimax') {
-          placeholder.textContent = 'MiniMax — pending';
-          minimaxMissing = true;
-        } else {
-          placeholder.textContent = 'Not generated yet';
-        }
-        ac.textContent = '';
-        ac.appendChild(placeholder);
-      });
-      testAudio.src = audioPath;
+      var audioEl = document.createElement('audio');
+      audioEl.controls = true;
+      audioEl.preload = 'none';
+      audioEl.src = audioPath;
+      audioEl.style.width = '100%';
+      audioEl.style.height = '40px';
+      audioEl.style.borderRadius = '8px';
+      cell.appendChild(audioEl);
 
       // Vote buttons
       const voteRow = createEl('div', 'vote-row');
@@ -559,26 +538,15 @@ var SIGH_TAKES = [
     cell.appendChild(label);
     cell.appendChild(createEl('div', 'approach-desc', take.desc));
 
-    var ac = createEl('div', '');
-    cell.appendChild(ac);
-
     var audioPath = 'audio/' + take.id + '.mp3';
-    var testAudio = new Audio();
-    testAudio.addEventListener('canplaythrough', function() {
-      var audioEl = document.createElement('audio');
-      audioEl.controls = true;
-      audioEl.preload = 'auto';
-      audioEl.src = audioPath;
-      audioEl.style.width = '100%';
-      audioEl.style.height = '40px';
-      audioEl.style.borderRadius = '8px';
-      ac.textContent = '';
-      ac.appendChild(audioEl);
-    });
-    testAudio.addEventListener('error', function() {
-      ac.appendChild(createEl('div', 'no-audio', 'Generating...'));
-    });
-    testAudio.src = audioPath;
+    var audioEl = document.createElement('audio');
+    audioEl.controls = true;
+    audioEl.preload = 'none';
+    audioEl.src = audioPath;
+    audioEl.style.width = '100%';
+    audioEl.style.height = '40px';
+    audioEl.style.borderRadius = '8px';
+    cell.appendChild(audioEl);
 
     var vk = 'sigh__' + take.id;
     var currentVote = votes[vk] || null;
@@ -646,26 +614,15 @@ var VOICE_TESTS = [
     cell.appendChild(label);
     cell.appendChild(createEl('div', 'approach-desc', voice.desc));
 
-    var ac = createEl('div', '');
-    cell.appendChild(ac);
-
     var audioPath = 'audio/' + voice.id + '.mp3';
-    var testAudio = new Audio();
-    testAudio.addEventListener('canplaythrough', function() {
-      var audioEl = document.createElement('audio');
-      audioEl.controls = true;
-      audioEl.preload = 'auto';
-      audioEl.src = audioPath;
-      audioEl.style.width = '100%';
-      audioEl.style.height = '40px';
-      audioEl.style.borderRadius = '8px';
-      ac.textContent = '';
-      ac.appendChild(audioEl);
-    });
-    testAudio.addEventListener('error', function() {
-      ac.appendChild(createEl('div', 'no-audio', 'File missing'));
-    });
-    testAudio.src = audioPath;
+    var audioEl = document.createElement('audio');
+    audioEl.controls = true;
+    audioEl.preload = 'none';
+    audioEl.src = audioPath;
+    audioEl.style.width = '100%';
+    audioEl.style.height = '40px';
+    audioEl.style.borderRadius = '8px';
+    cell.appendChild(audioEl);
 
     var vk = 'voice__' + voice.id;
     var currentVote = votes[vk] || null;
