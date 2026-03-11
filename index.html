@@ -267,10 +267,10 @@
 
   <div class="word-card" id="sighSection">
     <div class="word-header">
-      <div class="word-hebrew" style="font-size:1.4rem">אנחה פיזיולוגית — השוואת גרסאות</div>
+      <div class="word-hebrew" style="font-size:1.4rem">אנחה פיזיולוגית — סיבוב 2 (משופר)</div>
       <div class="word-meta">
-        <div class="word-correct">מחפשים: שאיפה ונשיפה נשמעות בפועל, עצירה לפני הנשיפה</div>
-        <div class="word-wrong">בעיה: v3/v4/v5 לא כוללים צלילי נשימה כמו v2</div>
+        <div class="word-correct">מחפשים: שאיפה ראשונה ארוכה, לגימה שנייה נשמעת, נשיפה ארוכה</div>
+        <div class="word-wrong">סיבוב 1: Demo sounds #1 נבחר כמנצח, עכשיו 12 גרסאות משופרות</div>
       </div>
     </div>
     <div class="approaches-grid" id="sighGrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"></div>
@@ -517,14 +517,21 @@ renderCards();
 
 // === Sigh takes section ===
 var SIGH_TAKES = [
-  { id: 'sigh-take1-v2exact-r1', label: 'v2 exact #1', desc: 'Exact v2 text+tone, take 1' },
-  { id: 'sigh-take1-v2exact-r2', label: 'v2 exact #2', desc: 'Exact v2 text+tone, take 2' },
-  { id: 'sigh-take2-breathe-r1', label: 'Breath instruction #1', desc: 'Instructed to breathe audibly' },
-  { id: 'sigh-take2-breathe-r2', label: 'Breath instruction #2', desc: 'Instructed to breathe audibly' },
-  { id: 'sigh-take3-pauses-r1', label: 'Pause markers #1', desc: '[pause/inhale/exhale] markers' },
-  { id: 'sigh-take3-pauses-r2', label: 'Pause markers #2', desc: '[pause/inhale/exhale] markers' },
-  { id: 'sigh-take4-demo-r1', label: 'Demo sounds #1', desc: 'Make inhale/exhale sounds' },
-  { id: 'sigh-take4-demo-r2', label: 'Demo sounds #2', desc: 'Make inhale/exhale sounds' },
+  // Round 1 - original takes
+  { id: 'sigh-take4-demo-r1', label: 'סיבוב 1 — מנצח', desc: 'הגרסה המקורית שנבחרה כמעולה' },
+  // Round 2 - refined based on feedback
+  { id: 'sigh-v2-demo-a-r1', label: 'מדויק A #1', desc: 'שאיפה ארוכה 3-4 שניות, לגימה 1 שנייה, נשיפה 4-5 שניות' },
+  { id: 'sigh-v2-demo-a-r2', label: 'מדויק A #2', desc: 'שאיפה ארוכה 3-4 שניות, לגימה 1 שנייה, נשיפה 4-5 שניות' },
+  { id: 'sigh-v2-demo-a-r3', label: 'מדויק A #3', desc: 'שאיפה ארוכה 3-4 שניות, לגימה 1 שנייה, נשיפה 4-5 שניות' },
+  { id: 'sigh-v2-demo-b-r1', label: 'הדגמה B #1', desc: 'מדגים כל שלב עם צלילי נשימה בפועל' },
+  { id: 'sigh-v2-demo-b-r2', label: 'הדגמה B #2', desc: 'מדגים כל שלב עם צלילי נשימה בפועל' },
+  { id: 'sigh-v2-demo-b-r3', label: 'הדגמה B #3', desc: 'מדגים כל שלב עם צלילי נשימה בפועל' },
+  { id: 'sigh-v2-demo-c-r1', label: 'טבעי C #1', desc: 'נשימות לפני כל הוראה, טבעיות ועדינות' },
+  { id: 'sigh-v2-demo-c-r2', label: 'טבעי C #2', desc: 'נשימות לפני כל הוראה, טבעיות ועדינות' },
+  { id: 'sigh-v2-demo-c-r3', label: 'טבעי C #3', desc: 'נשימות לפני כל הוראה, טבעיות ועדינות' },
+  { id: 'sigh-v2-demo-d-r1', label: 'משופר D #1', desc: 'גרסה מקורית עם תיקון אורך שאיפות' },
+  { id: 'sigh-v2-demo-d-r2', label: 'משופר D #2', desc: 'גרסה מקורית עם תיקון אורך שאיפות' },
+  { id: 'sigh-v2-demo-d-r3', label: 'משופר D #3', desc: 'גרסה מקורית עם תיקון אורך שאיפות' },
 ];
 
 (function renderSighTakes() {
