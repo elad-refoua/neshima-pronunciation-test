@@ -280,8 +280,8 @@
     <div class="word-header">
       <div class="word-hebrew" style="font-size:1.4rem">השוואת קולות MiniMax</div>
       <div class="word-meta">
-        <div class="word-correct">איזה קול נשמע הכי טבעי בעברית?</div>
-        <div class="word-wrong">הקול הקודם (English_Graceful_Lady) נשמע עם מבטא סיני — בודקים חלופות</div>
+        <div class="word-correct">איזה קול נשמע הכי טבעי בעברית? (10 קולות — 5 גנריים + 5 שפתיים)</div>
+        <div class="word-wrong">הקול הקודם (English_Graceful_Lady) נשמע עם מבטא סיני — בודקים קולות גנריים ושפתיים</div>
       </div>
     </div>
     <div class="approaches-grid" id="voiceGrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"></div>
@@ -618,7 +618,14 @@ var SIGH_TAKES = [
 
 // === Voice comparison section ===
 var VOICE_TESTS = [
-  { id: 'voice-test-Arabic_CalmWoman', label: 'Arabic CalmWoman', desc: 'קול ערבי רגוע — הכי קרוב לעברית?' },
+  // Generic/multilingual voices (should be better for Hebrew)
+  { id: 'voice-test-Wise_Woman', label: 'Wise Woman (גנרי)', desc: 'קול גנרי רב-לשוני — אישה חכמה' },
+  { id: 'voice-test-Calm_Woman', label: 'Calm Woman (גנרי)', desc: 'קול גנרי רב-לשוני — אישה רגועה' },
+  { id: 'voice-test-Friendly_Person', label: 'Friendly Person (גנרי)', desc: 'קול גנרי רב-לשוני — ידידותי' },
+  { id: 'voice-test-Deep_Voice_Man', label: 'Deep Voice Man (גנרי)', desc: 'קול גנרי רב-לשוני — גברי עמוק' },
+  { id: 'voice-test-Inspirational_girl', label: 'Inspirational Girl (גנרי)', desc: 'קול גנרי רב-לשוני — מעוררת השראה' },
+  // Language-specific voices
+  { id: 'voice-test-Arabic_CalmWoman', label: 'Arabic CalmWoman', desc: 'קול ערבי רגוע — שפה שמית קרובה' },
   { id: 'voice-test-Arabic_FriendlyGuy', label: 'Arabic FriendlyGuy', desc: 'קול ערבי גברי — ידידותי' },
   { id: 'voice-test-English_CalmWoman', label: 'English CalmWoman', desc: 'קול אנגלי רגוע נשי' },
   { id: 'voice-test-English_SereneWoman', label: 'English SereneWoman', desc: 'קול אנגלי שליו נשי' },
