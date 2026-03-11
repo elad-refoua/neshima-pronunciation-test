@@ -264,6 +264,18 @@
     MiniMax API — insufficient balance. עמודות MiniMax יתמלאו ברגע שהחשבון יופעל.
   </div>
   <div id="wordCards"></div>
+
+  <div class="word-card" id="sighSection">
+    <div class="word-header">
+      <div class="word-hebrew" style="font-size:1.4rem">אנחה פיזיולוגית — השוואת גרסאות</div>
+      <div class="word-meta">
+        <div class="word-correct">מחפשים: שאיפה ונשיפה נשמעות בפועל, עצירה לפני הנשיפה</div>
+        <div class="word-wrong">בעיה: v3/v4/v5 לא כוללים צלילי נשימה כמו v2</div>
+      </div>
+    </div>
+    <div class="approaches-grid" id="sighGrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"></div>
+  </div>
+
   <div class="summary-card" id="summaryCard">
     <h3>סיכום הצבעות</h3>
     <div id="summaryContent"></div>
@@ -502,6 +514,89 @@ function updateSummary() {
 }
 
 renderCards();
+
+// === Sigh takes section ===
+var SIGH_TAKES = [
+  { id: 'sigh-take1-v2exact-r1', label: 'v2 exact #1', desc: 'Exact v2 text+tone, take 1' },
+  { id: 'sigh-take1-v2exact-r2', label: 'v2 exact #2', desc: 'Exact v2 text+tone, take 2' },
+  { id: 'sigh-take2-breathe-r1', label: 'Breath instruction #1', desc: 'Instructed to breathe audibly' },
+  { id: 'sigh-take2-breathe-r2', label: 'Breath instruction #2', desc: 'Instructed to breathe audibly' },
+  { id: 'sigh-take3-pauses-r1', label: 'Pause markers #1', desc: '[pause/inhale/exhale] markers' },
+  { id: 'sigh-take3-pauses-r2', label: 'Pause markers #2', desc: '[pause/inhale/exhale] markers' },
+  { id: 'sigh-take4-demo-r1', label: 'Demo sounds #1', desc: 'Make inhale/exhale sounds' },
+  { id: 'sigh-take4-demo-r2', label: 'Demo sounds #2', desc: 'Make inhale/exhale sounds' },
+];
+
+(function renderSighTakes() {
+  var grid = document.getElementById('sighGrid');
+  if (!grid) return;
+  var votes = loadVotes();
+
+  SIGH_TAKES.forEach(function(take) {
+    var cell = createEl('div', 'approach-cell');
+    var label = createEl('div', 'approach-label');
+    var tag = createEl('span', 'engine-tag gemini', 'G');
+    label.appendChild(tag);
+    label.appendChild(document.createTextNode(' ' + take.label));
+    cell.appendChild(label);
+    cell.appendChild(createEl('div', 'approach-desc', take.desc));
+
+    var ac = createEl('div', '');
+    cell.appendChild(ac);
+
+    var audioPath = 'audio/' + take.id + '.mp3';
+    var testAudio = new Audio();
+    testAudio.addEventListener('canplaythrough', function() {
+      var audioEl = document.createElement('audio');
+      audioEl.controls = true;
+      audioEl.preload = 'auto';
+      audioEl.src = audioPath;
+      audioEl.style.width = '100%';
+      audioEl.style.height = '40px';
+      audioEl.style.borderRadius = '8px';
+      ac.textContent = '';
+      ac.appendChild(audioEl);
+    });
+    testAudio.addEventListener('error', function() {
+      ac.appendChild(createEl('div', 'no-audio', 'Generating...'));
+    });
+    testAudio.src = audioPath;
+
+    var vk = 'sigh__' + take.id;
+    var currentVote = votes[vk] || null;
+    var voteRow = createEl('div', 'vote-row');
+
+    var btnGood = createEl('button', 'vote-btn correct-btn', 'נשימות נשמעות');
+    if (currentVote === 'correct') btnGood.classList.add('selected');
+    btnGood.addEventListener('click', function() {
+      var v = loadVotes();
+      var k = 'sigh__' + take.id;
+      if (v[k] === 'correct') { delete v[k]; } else { v[k] = 'correct'; }
+      saveVotes(v);
+      var row = this.parentElement;
+      Array.from(row.children).forEach(function(b) { b.classList.remove('selected'); });
+      if (v[k]) this.classList.add('selected');
+    });
+
+    var btnBad = createEl('button', 'vote-btn wrong-btn', 'לא נשמעות');
+    if (currentVote === 'wrong') btnBad.classList.add('selected');
+    btnBad.addEventListener('click', function() {
+      var v = loadVotes();
+      var k = 'sigh__' + take.id;
+      if (v[k] === 'wrong') { delete v[k]; } else { v[k] = 'wrong'; }
+      saveVotes(v);
+      var row = this.parentElement;
+      Array.from(row.children).forEach(function(b) { b.classList.remove('selected'); });
+      if (v[k]) this.classList.add('selected');
+    });
+
+    voteRow.appendChild(btnGood);
+    voteRow.appendChild(btnBad);
+    cell.appendChild(voteRow);
+
+    grid.appendChild(cell);
+  });
+})();
 </script>
 </body>
 </html>
