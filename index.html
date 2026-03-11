@@ -261,7 +261,7 @@
     <div class="info" id="statusInfo">Loading...</div>
   </div>
   <div id="minimaxNotice" class="minimax-notice">
-    MiniMax API — insufficient balance. עמודות MiniMax יתמלאו ברגע שהחשבון יופעל.
+    MiniMax API — אין free tier ל-TTS. מינימום 5$/חודש (Starter). עמודות MiniMax יתמלאו אם ירכשו מנוי.
   </div>
   <div id="wordCards"></div>
 
@@ -284,20 +284,20 @@
 
 <script>
 const WORDS = [
-  { id: 'zaheh', word: '\u05D6\u05D4\u05D4', correct: 'zaheh', wrong: 'zeheh / zehu / zaha' },
-  { id: 'karka', word: '\u05E7\u05E8\u05E7\u05E2', correct: 'karka', wrong: 'kerka / kirkooa' },
-  { id: 'avarti', word: '\u05E2\u05D1\u05E8\u05EA\u05D9', correct: 'avarti', wrong: 'avartu / averti' },
-  { id: 'ankha', word: '\u05D0\u05E0\u05D7\u05D4', correct: 'ankha / enkha', wrong: 'hankhaya / anakha' },
-  { id: 'neshom', word: '\u05E0\u05E9\u05D5\u05DD', correct: 'neshom', wrong: 'nishoom / nashom' },
+  { id: 'zaheh', word: 'זהה', correct: 'zaheh', wrong: 'zeheh / zehu / zaha' },
+  { id: 'karka', word: 'קרקע', correct: 'karka', wrong: 'kerka / kirkooa' },
+  { id: 'avarti', word: 'עברתי', correct: 'avarti', wrong: 'avartu / averti' },
+  { id: 'ankha', word: 'אנחה', correct: 'ankha / enkha', wrong: 'hankhaya / anakha' },
+  { id: 'neshom', word: 'נשום', correct: 'neshom', wrong: 'nishoom / nashom' },
 ];
 
 const APPROACHES = [
-  { id: 'gemini-plain', label: '\u05D8\u05E7\u05E1\u05D8 \u05E8\u05D2\u05D9\u05DC', engine: 'gemini', desc: 'Plain text, no hints' },
-  { id: 'gemini-nikkud', label: '\u05E0\u05D9\u05E7\u05D5\u05D3', engine: 'gemini', desc: 'Hebrew vowel marks' },
-  { id: 'gemini-translit', label: '\u05EA\u05E2\u05EA\u05D9\u05E7 \u05D0\u05E0\u05D2\u05DC\u05D9', engine: 'gemini', desc: 'English transliteration hint' },
-  { id: 'gemini-both', label: '\u05E0\u05D9\u05E7\u05D5\u05D3 + \u05EA\u05E2\u05EA\u05D9\u05E7', engine: 'gemini', desc: 'Nikkud + transliteration' },
-  { id: 'minimax-plain', label: '\u05D8\u05E7\u05E1\u05D8 \u05E8\u05D2\u05D9\u05DC', engine: 'minimax', desc: 'language_boost=Hebrew' },
-  { id: 'minimax-dict', label: '\u05DE\u05D9\u05DC\u05D5\u05DF \u05D4\u05D2\u05D9\u05D9\u05D4', engine: 'minimax', desc: 'pronunciation_dict' },
+  { id: 'gemini-plain', label: 'טקסט רגיל', engine: 'gemini', desc: 'Plain text, no hints' },
+  { id: 'gemini-nikkud', label: 'ניקוד', engine: 'gemini', desc: 'Hebrew vowel marks' },
+  { id: 'gemini-translit', label: 'תעתיק אנגלי', engine: 'gemini', desc: 'English transliteration hint' },
+  { id: 'gemini-both', label: 'ניקוד + תעתיק', engine: 'gemini', desc: 'Nikkud + transliteration' },
+  { id: 'minimax-plain', label: 'טקסט רגיל', engine: 'minimax', desc: 'language_boost=Hebrew' },
+  { id: 'minimax-dict', label: 'מילון הגייה', engine: 'minimax', desc: 'pronunciation_dict' },
 ];
 
 const STORAGE_KEY = 'neshima_pron_votes';
