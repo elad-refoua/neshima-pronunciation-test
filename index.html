@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>נשימה — בדיקת הגייה | Pronunciation Test</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-hover: #273548;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #4ade80;
+    --red: #f87171;
+    --orange: #fb923c;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --border: #334155;
+    --gemini: #4285f4;
+    --minimax: #f97316;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+  .legend-dot.gemini { background: var(--gemini); }
+  .legend-dot.minimax { background: var(--minimax); }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  .word-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .word-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .word-hebrew {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .word-meta { flex: 1; }
+  .word-correct {
+    color: var(--green);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .word-wrong {
+    color: var(--red);
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+  }
+  .approaches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--border);
+  }
+  .approach-cell {
+    background: var(--card);
+    padding: 1rem 1.2rem;
+    transition: background 0.2s;
+  }
+  .approach-cell:hover { background: var(--card-hover); }
+  .approach-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .engine-tag {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    display: inline-block;
+  }
+  .engine-tag.gemini { background: var(--gemini); color: #fff; }
+  .engine-tag.minimax { background: var(--minimax); color: #fff; }
+  .approach-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 0.6rem;
+  }
+  audio {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+  }
+  .no-audio {
+    width: 100%;
+    height: 40px;
+    background: #1a1a2e;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    border: 1px dashed var(--border);
+  }
+  .vote-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .vote-btn {
+    flex: 1;
+    padding: 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+  }
+  .vote-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .vote-btn.correct-btn:hover, .vote-btn.correct-btn.selected {
+    border-color: var(--green); color: var(--green); background: rgba(74, 222, 128, 0.1);
+  }
+  .vote-btn.wrong-btn:hover, .vote-btn.wrong-btn.selected {
+    border-color: var(--red); color: var(--red); background: rgba(248, 113, 113, 0.1);
+  }
+  .vote-btn.selected { font-weight: 700; }
+  .status-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .status-bar .info { font-size: 0.85rem; color: var(--text-dim); }
+  .minimax-notice {
+    background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(249,115,22,0.05));
+    border: 1px solid rgba(249,115,22,0.3);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--orange);
+    display: none;
+  }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    display: none;
+  }
+  .summary-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--accent2);
+  }
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .summary-table th, .summary-table td {
+    padding: 0.6rem 0.8rem;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .summary-table th {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  @media (max-width: 600px) {
+    .approaches-grid { grid-template-columns: 1fr; }
+    .word-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .header h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>בדיקת הגייה — Pronunciation Test</h1>
+  <p>
+    השוואת גישות שונות לתיקון הגייה במילים בעייתיות.<br>
+    לכל מילה יש מספר גרסאות — האזינו ודרגו: נכון או לא נכון.
+  </p>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot gemini"></div> Gemini TTS</div>
+    <div class="legend-item"><div class="legend-dot minimax"></div> MiniMax TTS</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="status-bar">
+    <div class="info" id="statusInfo">Loading...</div>
+  </div>
+  <div id="minimaxNotice" class="minimax-notice">
+    MiniMax API — insufficient balance. עמודות MiniMax יתמלאו ברגע שהחשבון יופעל.
+  </div>
+  <div id="wordCards"></div>
+  <div class="summary-card" id="summaryCard">
+    <h3>סיכום הצבעות</h3>
+    <div id="summaryContent"></div>
+  </div>
+</div>
+
+<script>
+const WORDS = [
+  { id: 'zaheh', word: '\u05D6\u05D4\u05D4', correct: 'zaheh', wrong: 'zeheh / zehu / zaha' },
+  { id: 'karka', word: '\u05E7\u05E8\u05E7\u05E2', correct: 'karka', wrong: 'kerka / kirkooa' },
+  { id: 'avarti', word: '\u05E2\u05D1\u05E8\u05EA\u05D9', correct: 'avarti', wrong: 'avartu / averti' },
+  { id: 'ankha', word: '\u05D0\u05E0\u05D7\u05D4', correct: 'ankha / enkha', wrong: 'hankhaya / anakha' },
+  { id: 'neshom', word: '\u05E0\u05E9\u05D5\u05DD', correct: 'neshom', wrong: 'nishoom / nashom' },
+];
+
+const APPROACHES = [
+  { id: 'gemini-plain', label: '\u05D8\u05E7\u05E1\u05D8 \u05E8\u05D2\u05D9\u05DC', engine: 'gemini', desc: 'Plain text, no hints' },
+  { id: 'gemini-nikkud', label: '\u05E0\u05D9\u05E7\u05D5\u05D3', engine: 'gemini', desc: 'Hebrew vowel marks' },
+  { id: 'gemini-translit', label: '\u05EA\u05E2\u05EA\u05D9\u05E7 \u05D0\u05E0\u05D2\u05DC\u05D9', engine: 'gemini', desc: 'English transliteration hint' },
+  { id: 'gemini-both', label: '\u05E0\u05D9\u05E7\u05D5\u05D3 + \u05EA\u05E2\u05EA\u05D9\u05E7', engine: 'gemini', desc: 'Nikkud + transliteration' },
+  { id: 'minimax-plain', label: '\u05D8\u05E7\u05E1\u05D8 \u05E8\u05D2\u05D9\u05DC', engine: 'minimax', desc: 'language_boost=Hebrew' },
+  { id: 'minimax-dict', label: '\u05DE\u05D9\u05DC\u05D5\u05DF \u05D4\u05D2\u05D9\u05D9\u05D4', engine: 'minimax', desc: 'pronunciation_dict' },
+];
+
+const STORAGE_KEY = 'neshima_pron_votes';
+
+function loadVotes() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+
+function saveVotes(votes) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(votes));
+}
+
+function voteKey(wId, aId) { return wId + '__' + aId; }
+
+function createEl(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text) el.textContent = text;
+  return el;
+}
+
+function vote(wordId, approachId, value, btn) {
+  const votes = loadVotes();
+  const vk = voteKey(wordId, approachId);
+  if (votes[vk] === value) {
+    delete votes[vk];
+  } else {
+    votes[vk] = value;
+  }
+  saveVotes(votes);
+
+  const row = btn.parentElement;
+  Array.from(row.children).forEach(function(b) { b.classList.remove('selected'); });
+  if (votes[vk]) btn.classList.add('selected');
+  updateSummary();
+  updateStatus();
+}
+
+function renderCards() {
+  const container = document.getElementById('wordCards');
+  container.textContent = '';
+  const votes = loadVotes();
+  let minimaxMissing = false;
+
+  WORDS.forEach(function(word) {
+    const card = createEl('div', 'word-card');
+
+    // Header
+    const header = createEl('div', 'word-header');
+    const wordEl = createEl('div', 'word-hebrew', word.word);
+    const meta = createEl('div', 'word-meta');
+    const correctEl = createEl('div', 'word-correct', 'Correct: ' + word.correct);
+    const wrongEl = createEl('div', 'word-wrong', 'Wrong: ' + word.wrong);
+    meta.appendChild(correctEl);
+    meta.appendChild(wrongEl);
+    header.appendChild(wordEl);
+    header.appendChild(meta);
+    card.appendChild(header);
+
+    // Grid
+    const grid = createEl('div', 'approaches-grid');
+
+    APPROACHES.forEach(function(approach) {
+      const cell = createEl('div', 'approach-cell');
+      const vk = voteKey(word.id, approach.id);
+      const currentVote = votes[vk] || null;
+
+      // Label
+      const label = createEl('div', 'approach-label');
+      const tag = createEl('span', 'engine-tag ' + approach.engine,
+        approach.engine === 'gemini' ? 'G' : 'M');
+      label.appendChild(tag);
+      label.appendChild(document.createTextNode(' ' + approach.label));
+      cell.appendChild(label);
+
+      // Description
+      const desc = createEl('div', 'approach-desc', approach.desc);
+      cell.appendChild(desc);
+
+      // Audio container
+      const ac = createEl('div', '');
+      ac.id = 'ac_' + word.id + '_' + approach.id;
+      cell.appendChild(ac);
+
+      // Audio element
+      const filename = word.id + '_' + approach.id + '.mp3';
+      const audioPath = 'audio/' + filename;
+      const testAudio = new Audio();
+      testAudio.addEventListener('canplaythrough', function() {
+        var audioEl = document.createElement('audio');
+        audioEl.controls = true;
+        audioEl.preload = 'auto';
+        audioEl.src = audioPath;
+        audioEl.style.width = '100%';
+        audioEl.style.height = '40px';
+        audioEl.style.borderRadius = '8px';
+        ac.textContent = '';
+        ac.appendChild(audioEl);
+      });
+      testAudio.addEventListener('error', function() {
+        var placeholder = createEl('div', 'no-audio');
+        if (approach.engine === 'minimax') {
+          placeholder.textContent = 'MiniMax — pending';
+          minimaxMissing = true;
+        } else {
+          placeholder.textContent = 'Not generated yet';
+        }
+        ac.textContent = '';
+        ac.appendChild(placeholder);
+      });
+      testAudio.src = audioPath;
+
+      // Vote buttons
+      const voteRow = createEl('div', 'vote-row');
+
+      const btnCorrect = createEl('button', 'vote-btn correct-btn', 'Correct');
+      if (currentVote === 'correct') btnCorrect.classList.add('selected');
+      btnCorrect.addEventListener('click', function() { vote(word.id, approach.id, 'correct', this); });
+
+      const btnWrong = createEl('button', 'vote-btn wrong-btn', 'Wrong');
+      if (currentVote === 'wrong') btnWrong.classList.add('selected');
+      btnWrong.addEventListener('click', function() { vote(word.id, approach.id, 'wrong', this); });
+
+      voteRow.appendChild(btnCorrect);
+      voteRow.appendChild(btnWrong);
+      cell.appendChild(voteRow);
+
+      grid.appendChild(cell);
+    });
+
+    card.appendChild(grid);
+    container.appendChild(card);
+  });
+
+  // Show MiniMax notice
+  setTimeout(function() {
+    var notice = document.getElementById('minimaxNotice');
+    notice.style.display = minimaxMissing ? 'block' : 'none';
+  }, 2000);
+
+  updateStatus();
+  updateSummary();
+}
+
+function updateStatus() {
+  const votes = loadVotes();
+  const total = WORDS.length * APPROACHES.length;
+  const voted = Object.keys(votes).length;
+  document.getElementById('statusInfo').textContent =
+    WORDS.length + ' words x ' + APPROACHES.length + ' approaches = ' + total + ' samples | ' + voted + '/' + total + ' voted';
+}
+
+function updateSummary() {
+  const votes = loadVotes();
+  const voted = Object.keys(votes).length;
+  const card = document.getElementById('summaryCard');
+  const content = document.getElementById('summaryContent');
+
+  if (voted === 0) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'block';
+
+  const table = document.createElement('table');
+  table.className = 'summary-table';
+
+  // Header
+  const thead = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  var th = document.createElement('th');
+  th.textContent = 'Word';
+  headRow.appendChild(th);
+  APPROACHES.forEach(function(a) {
+    th = document.createElement('th');
+    th.textContent = (a.engine === 'gemini' ? 'G' : 'M') + ' ' + a.label;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  // Body
+  const tbody = document.createElement('tbody');
+  WORDS.forEach(function(word) {
+    const row = document.createElement('tr');
+    var td = document.createElement('td');
+    td.textContent = word.word;
+    td.style.fontWeight = '700';
+    row.appendChild(td);
+
+    APPROACHES.forEach(function(a) {
+      td = document.createElement('td');
+      const v = votes[voteKey(word.id, a.id)];
+      if (v === 'correct') {
+        td.textContent = 'OK';
+        td.style.color = 'var(--green)';
+        td.style.fontWeight = '600';
+      } else if (v === 'wrong') {
+        td.textContent = 'X';
+        td.style.color = 'var(--red)';
+      } else {
+        td.textContent = '-';
+        td.style.color = 'var(--text-dim)';
+      }
+      row.appendChild(td);
+    });
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+
+  content.textContent = '';
+  content.appendChild(table);
+}
+
+renderCards();
+</script>
+</body>
+</html>

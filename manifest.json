@@ -1,0 +1,205 @@
+{
+  "generated": "2026-03-11 18:57",
+  "words": [
+    {
+      "id": "zaheh",
+      "word": "זהה",
+      "correct": "zaheh (like \"za\" + \"heh\")",
+      "wrong": "zeheh / zehu / zaha",
+      "nikkud": "זַהֵה",
+      "translit": "za-HEH"
+    },
+    {
+      "id": "karka",
+      "word": "קרקע",
+      "correct": "karka (stress on second syllable)",
+      "wrong": "kerka / kirkooa",
+      "nikkud": "קַרְקַע",
+      "translit": "kar-KA"
+    },
+    {
+      "id": "avarti",
+      "word": "עברתי",
+      "correct": "avarti (ending with \"ti\")",
+      "wrong": "avartu / averti",
+      "nikkud": "עָבַרְתִּי",
+      "translit": "a-VAR-ti"
+    },
+    {
+      "id": "ankha",
+      "word": "אנחה",
+      "correct": "ankha / enkha (a sigh)",
+      "wrong": "hankhaya / anakha",
+      "nikkud": "אֶנְחָה",
+      "translit": "en-KHA"
+    },
+    {
+      "id": "neshom",
+      "word": "נשום",
+      "correct": "neshom (breathe, imperative)",
+      "wrong": "nishoom / nashom",
+      "nikkud": "נְשֹׁם",
+      "translit": "ne-SHOM"
+    }
+  ],
+  "approaches": [
+    {
+      "id": "gemini-plain",
+      "label": "Gemini — Plain text"
+    },
+    {
+      "id": "gemini-nikkud",
+      "label": "Gemini — Nikkud only"
+    },
+    {
+      "id": "gemini-translit",
+      "label": "Gemini — Transliteration only"
+    },
+    {
+      "id": "gemini-both",
+      "label": "Gemini — Nikkud + Transliteration"
+    }
+  ],
+  "results": [
+    {
+      "word": "zaheh",
+      "approach": "gemini-plain",
+      "ok": true,
+      "dur": 4.930958333333334,
+      "file": "zaheh_gemini-plain.mp3"
+    },
+    {
+      "word": "zaheh",
+      "approach": "gemini-nikkud",
+      "ok": true,
+      "dur": 5.210958333333333,
+      "file": "zaheh_gemini-nikkud.mp3"
+    },
+    {
+      "word": "zaheh",
+      "approach": "gemini-translit",
+      "ok": true,
+      "dur": 4.930958333333334,
+      "file": "zaheh_gemini-translit.mp3"
+    },
+    {
+      "word": "zaheh",
+      "approach": "gemini-both",
+      "ok": true,
+      "dur": 5.090958333333333,
+      "file": "zaheh_gemini-both.mp3"
+    },
+    {
+      "word": "karka",
+      "approach": "gemini-plain",
+      "ok": true,
+      "dur": 3.8109583333333332,
+      "file": "karka_gemini-plain.mp3"
+    },
+    {
+      "word": "karka",
+      "approach": "gemini-nikkud",
+      "ok": true,
+      "dur": 4.050958333333333,
+      "file": "karka_gemini-nikkud.mp3"
+    },
+    {
+      "word": "karka",
+      "approach": "gemini-translit",
+      "ok": true,
+      "dur": 3.8109583333333332,
+      "file": "karka_gemini-translit.mp3"
+    },
+    {
+      "word": "karka",
+      "approach": "gemini-both",
+      "ok": true,
+      "dur": 3.8109583333333332,
+      "file": "karka_gemini-both.mp3"
+    },
+    {
+      "word": "avarti",
+      "approach": "gemini-plain",
+      "ok": true,
+      "dur": 2.9709583333333334,
+      "file": "avarti_gemini-plain.mp3"
+    },
+    {
+      "word": "avarti",
+      "approach": "gemini-nikkud",
+      "ok": true,
+      "dur": 3.3709583333333333,
+      "file": "avarti_gemini-nikkud.mp3"
+    },
+    {
+      "word": "avarti",
+      "approach": "gemini-translit",
+      "ok": true,
+      "dur": 3.5309583333333334,
+      "file": "avarti_gemini-translit.mp3"
+    },
+    {
+      "word": "avarti",
+      "approach": "gemini-both",
+      "ok": true,
+      "dur": 3.4509583333333333,
+      "file": "avarti_gemini-both.mp3"
+    },
+    {
+      "word": "ankha",
+      "approach": "gemini-plain",
+      "ok": true,
+      "dur": 5.130958333333333,
+      "file": "ankha_gemini-plain.mp3"
+    },
+    {
+      "word": "ankha",
+      "approach": "gemini-nikkud",
+      "ok": true,
+      "dur": 6.290958333333333,
+      "file": "ankha_gemini-nikkud.mp3"
+    },
+    {
+      "word": "ankha",
+      "approach": "gemini-translit",
+      "ok": true,
+      "dur": 5.890958333333334,
+      "file": "ankha_gemini-translit.mp3"
+    },
+    {
+      "word": "ankha",
+      "approach": "gemini-both",
+      "ok": true,
+      "dur": 6.330958333333333,
+      "file": "ankha_gemini-both.mp3"
+    },
+    {
+      "word": "neshom",
+      "approach": "gemini-plain",
+      "ok": true,
+      "dur": 8.210958333333334,
+      "file": "neshom_gemini-plain.mp3"
+    },
+    {
+      "word": "neshom",
+      "approach": "gemini-nikkud",
+      "ok": true,
+      "dur": 9.770958333333333,
+      "file": "neshom_gemini-nikkud.mp3"
+    },
+    {
+      "word": "neshom",
+      "approach": "gemini-translit",
+      "ok": true,
+      "dur": 10.010958333333333,
+      "file": "neshom_gemini-translit.mp3"
+    },
+    {
+      "word": "neshom",
+      "approach": "gemini-both",
+      "ok": true,
+      "dur": 9.730958333333334,
+      "file": "neshom_gemini-both.mp3"
+    }
+  ]
+}
