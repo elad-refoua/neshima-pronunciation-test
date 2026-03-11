@@ -247,7 +247,8 @@
   <h1>בדיקת הגייה — Pronunciation Test</h1>
   <p>
     השוואת גישות שונות לתיקון הגייה במילים בעייתיות.<br>
-    לכל מילה יש מספר גרסאות — האזינו ודרגו: נכון או לא נכון.
+    לכל מילה יש מספר גרסאות — האזינו ודרגו: האם <strong>המילה המסומנת</strong> נשמעת נכון?<br>
+    <span style="color:#fb923c">שימו לב: הדירוג מתייחס רק להגייה של המילה הספציפית, לא לכל המשפט.</span>
   </p>
   <div class="legend">
     <div class="legend-item"><div class="legend-dot gemini"></div> Gemini TTS</div>
@@ -401,11 +402,11 @@ function renderCards() {
       // Vote buttons
       const voteRow = createEl('div', 'vote-row');
 
-      const btnCorrect = createEl('button', 'vote-btn correct-btn', 'Correct');
+      const btnCorrect = createEl('button', 'vote-btn correct-btn', 'המילה נכונה');
       if (currentVote === 'correct') btnCorrect.classList.add('selected');
       btnCorrect.addEventListener('click', function() { vote(word.id, approach.id, 'correct', this); });
 
-      const btnWrong = createEl('button', 'vote-btn wrong-btn', 'Wrong');
+      const btnWrong = createEl('button', 'vote-btn wrong-btn', 'המילה לא נכונה');
       if (currentVote === 'wrong') btnWrong.classList.add('selected');
       btnWrong.addEventListener('click', function() { vote(word.id, approach.id, 'wrong', this); });
 
